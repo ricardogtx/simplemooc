@@ -7,13 +7,13 @@
         <form action="" class="pure-form pure-form-aligned" method="post">
             {% csrf_token %}
             <fieldset>
-                {{ form.non_field_erros}}
+                {{ form.non_field_errors}}
                 
                 {% for field in form %}
                     <div class="pure-control-group">
                         {{ field.label_tag}}
                         {{ field }}
-                        {{ field.erros}}
+                        {{ field.errors}}
                     </div>
                 {% endfor %}
                     <div class="pure-controls">
