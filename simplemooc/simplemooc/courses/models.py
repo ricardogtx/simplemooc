@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.conf import settings
+
 
 class Course(models.Model):
     name = models.CharField('Nome', max_length=100)
@@ -31,3 +33,35 @@ class Course(models.Model):
         verbose_name = 'Curso'
         verbose_name_plural = 'Cursos'
         ordering = ['name']
+
+class Enrollment(models.Model):
+
+    STATUS_CHOICES = (
+        (0,'Pendendte'),
+        (1,'Aprovado'),
+        (0,'Cancelado'),
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='Usuário',
+        related_name='enrollments'
+    )
+    course = models.ForeignKey(
+        Course, verbose_name='Curso', related_name='enrollments'
+    )
+    status = models.IntegerField(
+        'Situação', choices=STATUS_CHOICES, default=0, blank=True
+     )
+
+    created_at = models.DateTimeField('Criado em', auto_now=True)
+    updated_at = models.DateTimeField('Atualizado', auto_now=True)
+
+    def active(self):
+        self.status = 1
+        self.save()
+
+    
+    class Meta:
+        verbose_name = 'Inscrição'
+        verbose_name_plural = 'Inscrições'
+        #Só existe um enrollment com user e course
+        unique_together = (('user', 'course'))
