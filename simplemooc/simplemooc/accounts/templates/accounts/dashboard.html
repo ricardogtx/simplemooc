@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load courses_tags %}
+
 {% block content %}
 <div class="pure-g-r content-ribbon">
     
@@ -12,23 +14,58 @@
     </div>
     <div class="pure-u-1-3">
         <div class="pure-menu pure-menu-open">
-            <a class="pure-menu-heading">Meus Contratos</a>
             <ul>
-                <li><a href="#">Contrato 1</a></li>
-                <li><a href="#">Contrato 2</a></li>
-                <li class="pure-menu-heading">Minha Conta</li>
-                <li><a href="{% url 'accounts:edit' %}">Editar Conta</a></li>
-                <li><a href="{% url 'accounts:edit_password' %}">Editar Senha</a></li>
+                <li class="pure-menu-heading">
+                    Bem vindo, {{ user }}
+                </li>
+                {% load_my_courses user as enrollments %}
+                {% for enrollment in enrollments %}
+                <li>
+                    <a href="">
+                        <i class="fa fa-book"></i>
+                        {{ enrollment.course }}
+                    </a>
+                </li>
+                {% empty %}
+                <li>Você não está inscrito em nenhum curso</li>
+                {% endfor %}
+                <li class="pure-menu-heading">Contratos</li>
+                <li class="pure-menu-heading">Configurações de Conta</li>
+                <li>
+                    <a href="{% url 'accounts:edit' %}">
+                        <i class="fa fa-cog"></i>
+                        Editar Informações
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'accounts:edit_password' %}">
+                        <i class="fa fa-lock"></i>
+                        Editar Senha
+
+                    </a>
+                </li>
                 
             </ul>
         </div>
     </div>
     <div class="pure-u-2-3">
         <div class="inner">
-            {% block dashboard_content %}
-            <p><strong>Usuário</strong>: {{ user }}</p>
-            <p><strong>E-mail</strong>: {{ user.email }}</p>
-            {% endblock %}
+                {% block dashboard_content %}
+                <h2>Meus Cursos</h2>
+                {% for enrollment in enrollments %}
+                <div class="well">
+                    <h3>{{ enrollment.course }}
+                    ({{ enrollment.course.start_date|date:'d/m/Y'|default:'Sem data' }})
+                    </h3>
+                    {{ enrollment.course.description|linebreaks }}
+                    
+                </div>
+                {% empty %}
+                <aside class="pure-u-1">
+                    <p>Nenhum curso inscrito</p>
+                </aside>
+                {% endfor %}
+                {% endblock %}
         </div>
     </div>
 </div>
