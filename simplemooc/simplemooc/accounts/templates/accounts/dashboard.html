@@ -18,6 +18,7 @@
                 <li class="pure-menu-heading">
                     Bem vindo, {{ user }}
                 </li>
+                {% block extra_menu%}{% endblock %}
                 {% load_my_courses user as enrollments %}
                 {% for enrollment in enrollments %}
                 <li>
