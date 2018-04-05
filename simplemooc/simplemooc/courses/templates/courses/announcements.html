@@ -1,1 +1,25 @@
-{% extends "dashboard" %}
+{% extends "accounts/dashboard.html" %}
+
+{% block dashboard_content %}
+
+{% block menu_opstions %}
+<li>
+    {{ course }}
+</li>
+{{ block.super }}
+{% endblock %}
+<div class="well">
+    <h2>Início das aulas, seja bem vindos</h2>
+    <p></p>
+    <p>
+        <a href=""><i></i></a>
+    </p>
+</div>
+<div class="well">
+    <h2>Início das aulas, seja bem vindos</h2>
+    <p></p>
+    <p>
+        <a href=""><i></i></a>
+    </p>
+</div>
+{% endblock %}

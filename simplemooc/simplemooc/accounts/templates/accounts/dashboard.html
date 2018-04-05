@@ -18,11 +18,11 @@
                 <li class="pure-menu-heading">
                     Bem vindo, {{ user }}
                 </li>
-                {% block extra_menu%}{% endblock %}
+                {% block menu_options %}
                 {% load_my_courses user as enrollments %}
                 {% for enrollment in enrollments %}
                 <li>
-                    <a href="">
+                    <a href="{% url 'courses:announcements' enrollment.course.slug %}">
                         <i class="fa fa-book"></i>
                         {{ enrollment.course }}
                     </a>
@@ -45,6 +45,7 @@
 
                     </a>
                 </li>
+                {% endblock %}
                 
             </ul>
         </div>
