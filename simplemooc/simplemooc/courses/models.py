@@ -67,3 +67,37 @@ class Enrollment(models.Model):
         verbose_name_plural = 'Inscrições'
         #Só existe um enrollment com user e course
         unique_together = (('user', 'course'))
+
+class Annoucement(models.Model):
+
+    course = models.ForeignKey(Course, verbose_name='Curso')
+    title = models.CharField('Título', max_length=100)
+    content = models.TextField('Conteúdo')
+
+    created_at = models.DateTimeField('Criado em', auto_now=True)
+    updated_at = models.DateTimeField('Atualizado', auto_now=True)
+
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        verbose_name = 'Anúncio'
+        verbose_name_plural = 'Anúncios'
+        ordering = ['-created_at']
+
+class Comment(models.Model):
+
+    announcement = models.ForeignKey(
+        Annoucement, verbose_name='Anúncio', related_name='comments'
+    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='usuário')
+    comment = models.TextField('Comentário')
+
+    created_at = models.DateTimeField('Criado em', auto_now=True)
+    updated_at = models.DateTimeField('Atualizado', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Comentário'
+        verbose_name_plural = 'Comentários'
+        ordering = ['created_at']
+
