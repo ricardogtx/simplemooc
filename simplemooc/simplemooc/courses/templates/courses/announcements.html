@@ -8,7 +8,7 @@
     </h2>
     {{ announcement.content|linebreaks}}
     <p>
-        <a href="{% url 'courses:show_announcement' course.slug annoucement.pk%}#comments">
+        <a href="{% url 'courses:show_announcement' course.slug announcement.pk %}#comments">
         <i class="fa fa-comments-o"></i>
         {% with comments_count=announcement.comments.count%}
          {{ comments_count }} 
