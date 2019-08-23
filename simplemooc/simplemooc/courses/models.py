@@ -35,6 +35,41 @@ class Course(models.Model):
         verbose_name_plural = 'Cursos'
         ordering = ['name']
 
+class Lesson(models.Model):
+    name = models.CharField('Nome', max_length=100)
+    description = models.TextField('Descrição', blank=True)
+    number = models.IntegerField('Número (ordem)', blank=True, default=0)
+    release_date = models.DateField('Data de Liberação', blank = True, null=True)
+
+    course = models.ForeignKey(Course, verbose_name='Curso', related_name='lessons')
+
+    created_at = models.DateTimeField('Criado em', auto_now=True)
+    updated_at = models.DateTimeField('Atualizado', auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Aula'
+        verbose_name_plural = 'Aulas'
+        ordering = ['number']
+
+class Material(models.Model):
+    name = models.CharField('Nome', max_length=100)
+    embedded = models.TextField('Vídeo embedded', blank=True)
+    file = models.FileField(
+        upload_to='lessons/materials', blank=True,
+        null=True
+    )
+
+    lesson = models.ForeignKey(Lesson, verbose_name='aula',related_name='materials')
+
+    def is_embedded(self):
+        return bool(self.embedded)
+    class Meta:
+            verbose_name = 'Material'
+            verbose_name_plural = 'Materiais'
+
 class Enrollment(models.Model):
 
     STATUS_CHOICES = (
@@ -122,3 +157,4 @@ models.signals.post_save.connect(
     post_save_announcement, sender=Annoucement, 
     dispatch_uid='post_save_announcement'
 )
+
