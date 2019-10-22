@@ -3,7 +3,7 @@ from django.conf import settings
 
 from taggit.managers import TaggableManager
 
-class Thread(model.Model):
+class Thread(models.Model):
         title = models.CharField('Título', max_length=100)
         body = models.TextField('Mensagem')
         author = models.ForeignKey(
@@ -32,7 +32,7 @@ class Reply(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         verbose_name='Autor',
-        related_name='threads'
+        related_name='replies'
     )
     correct = models.BooleanField('Correta?', blank = True, default=False)
 
